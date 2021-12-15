@@ -6,6 +6,11 @@ public class PauseState : BaseState
     {
         base.PrepareState();
 
+        GameController.Instance.CanPause = false;
+        GameController.Instance.GrabSystem.SetGrabSystemEnabled(false);
+
+        GameController.Instance.UIController.SetupPauseUI();
+
         Debug.Log("Pause State");
         Time.timeScale = 0.0f;
     }

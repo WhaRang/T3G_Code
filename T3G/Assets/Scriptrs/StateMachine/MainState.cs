@@ -6,6 +6,10 @@ public class MainState : BaseState
     {
         base.PrepareState();
 
+        GameController.Instance.CanPause = true;
+        GameController.Instance.GrabSystem.SetGrabSystemEnabled(true);
+        GameController.Instance.UIController.SetupMainUI();
+
         Debug.Log("Main State");
         Time.timeScale = 1.0f;
     }

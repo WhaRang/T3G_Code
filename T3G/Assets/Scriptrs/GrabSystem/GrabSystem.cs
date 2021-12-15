@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GrabSystem : MonoBehaviour
 {
@@ -19,13 +20,21 @@ public class GrabSystem : MonoBehaviour
     [SerializeField]
     private PickableItamObjectPool pool;
 
-    private void Start()
+    public void SetGrabSystemEnabled(bool isEnabled)
     {
-        GameController.Instance.Controls.Player.Pick.performed += _ => Pick();
-        GameController.Instance.Controls.Player.ReturnToPool.performed += _ => ReturnToPool();
+        if (isEnabled)
+        {
+            GameController.Instance.Controls.Player.Pick.performed += Pick;
+            GameController.Instance.Controls.Player.ReturnToPool.performed += ReturnToPool;
+        }
+        else
+        {
+            GameController.Instance.Controls.Player.Pick.performed -= Pick;
+            GameController.Instance.Controls.Player.ReturnToPool.performed -= ReturnToPool;
+        }
     }
 
-    private void ReturnToPool()
+    private void ReturnToPool(InputAction.CallbackContext context)
     {
         if (pickedItem)
             return;
@@ -43,7 +52,7 @@ public class GrabSystem : MonoBehaviour
         }
     }
 
-    private void Pick()
+    private void Pick(InputAction.CallbackContext context)
     {
         if (pickedItem)
         {
